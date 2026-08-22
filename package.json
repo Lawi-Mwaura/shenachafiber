@@ -1,0 +1,29 @@
+{
+  "name": "shenacha-fiber",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "db:migrate": "node scripts/migrate.mjs",
+    "db:test-migration": "node scripts/test-migration.mjs"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^1.0.2",
+    "@phosphor-icons/react": "^2.1.10",
+    "next": "16.3.2",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "simple-icons": "^16.28.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "typescript": "^5.9.0",
+    "vitest": "^3.2.4"
+  }
+}
