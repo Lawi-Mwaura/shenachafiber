@@ -1,5 +1,5 @@
 export const businessProfile = {
-  publicArea: "Nairobi, Kenya",
+  publicArea: "Juja, Kenya",
   whatsapp: "+254111366171",
   whatsappDisplay: "+254 111 366 171",
   supportPhone: "+254791386795",

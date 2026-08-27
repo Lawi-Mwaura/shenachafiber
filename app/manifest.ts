@@ -4,10 +4,10 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "Shenacha Fiber",
     short_name: "Shenacha",
-    description: "Fibre internet, structured cabling, CCTV and biometric access services in Nairobi.",
+    description: "Fibre internet in Juja, plus CCTV and biometric access solutions for properties.",
     start_url: "/",
     display: "standalone",
-    background_color: "#fffdf8",
-    theme_color: "#0b1830",
+    background_color: "#ffffff",
+    theme_color: "#0b1f3a",
   };
 }

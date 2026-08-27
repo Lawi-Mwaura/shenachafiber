@@ -6,170 +6,95 @@ import { FormEvent, useRef, useState } from "react";
 import { ArrowRight } from "@phosphor-icons/react/dist/icons/ArrowRight";
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import { businessProfile } from "@/lib/business";
-import type { LeadContactPreference, LeadField, LeadFieldErrors, LeadPropertyType, LeadResponse, LeadService } from "@/lib/lead";
+import type { LeadContactPreference, LeadContactRole, LeadEnquiryKind, LeadField, LeadFieldErrors, LeadPropertyType, LeadResponse } from "@/lib/lead";
 
-type Topic = "internet" | "cctv" | "access" | "support";
 type FormState = "idle" | "submitting" | "success" | "error";
+type Props = { fixedKind?: LeadEnquiryKind; heading?: string };
 
-const services: Array<{ key: Topic; label: string; help: string }> = [
-  { key: "internet", label: "Fibre & Wi-Fi", help: "New connection or coverage request" },
-  { key: "cctv", label: "CCTV installation", help: "Property survey and camera planning" },
-  { key: "access", label: "Biometric access", help: "Gate or door compatibility assessment" },
-  { key: "support", label: "Customer support", help: "Help with an existing connection" },
+const journeys: Array<{ value: LeadEnquiryKind; label: string }> = [
+  { value: "fibre_availability", label: "Check fibre availability" },
+  { value: "property_meeting", label: "Book a property meeting" },
+  { value: "cctv_quote", label: "Request a CCTV quote" },
+  { value: "biometric_quote", label: "Request an access-control quote" },
+  { value: "support", label: "Customer support" },
 ];
-
-const serviceMap: Record<Topic, LeadService> = { internet: "internet", cctv: "cctv", access: "biometric_access", support: "support" };
-const messageLabel: Record<Topic, { label: string; hint: string }> = {
-  internet: { label: "How will you use the connection?", hint: "Tell us about users, devices, streaming, classes, remote work or business use." },
-  cctv: { label: "Which areas are you concerned about?", hint: "Mention entrances, gates, parking, blind spots or any existing cameras." },
-  access: { label: "Tell us about the entrance", hint: "Is it a gate or door? Mention existing automation, available power and estimated users if known." },
-  support: { label: "What problem are you seeing and when did it begin?", hint: "Describe the router or fibre-box lights, when the problem began and the checks you have already tried." },
+const propertyTypes: Array<{ value: LeadPropertyType; label: string }> = [
+  { value: "home", label: "Home" }, { value: "apartment", label: "Apartment" }, { value: "office", label: "Office" },
+  { value: "business", label: "Business" }, { value: "commercial_property", label: "Commercial property" }, { value: "new_development", label: "New development" }, { value: "other", label: "Other" },
+];
+const contactRoles: Array<{ value: LeadContactRole; label: string }> = [
+  { value: "landlord", label: "Landlord" }, { value: "property_manager", label: "Property manager" }, { value: "developer", label: "Developer" },
+  { value: "building_owner", label: "Building owner" }, { value: "business_owner", label: "Business owner" }, { value: "other", label: "Other" },
+];
+const titles: Record<LeadEnquiryKind, string> = {
+  fibre_availability: "Check fibre availability", property_meeting: "Book a property meeting", cctv_quote: "Request a CCTV quote",
+  biometric_quote: "Request an access-control quote", support: "Contact support",
 };
-const properties: Array<{ key: LeadPropertyType; label: string }> = [
-  { key: "home", label: "Home" },
-  { key: "apartment", label: "Apartment building" },
-  { key: "office", label: "Shop or office" },
-  { key: "new_development", label: "New development" },
-  { key: "other", label: "Other" },
-];
 
-export function EnquiryForm() {
+export function EnquiryForm({ fixedKind, heading }: Props) {
   const search = useSearchParams();
-  const queryTopic = search.get("service");
-  const initialTopic: Topic = queryTopic === "cctv" || queryTopic === "access" || queryTopic === "support" ? queryTopic : "internet";
-  const [topic, setTopic] = useState<Topic>(initialTopic);
-  const [plan, setPlan] = useState(search.get("plan") ?? "");
-  const [location, setLocation] = useState(search.get("location") ?? "");
-  const [building, setBuilding] = useState("");
-  const [propertyType, setPropertyType] = useState<LeadPropertyType | "">("");
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
-  const [userCount, setUserCount] = useState("");
-  const [contactPreference, setContactPreference] = useState<LeadContactPreference | "">("");
-  const [details, setDetails] = useState("");
-  const [consent, setConsent] = useState(false);
+  const queryKind = search.get("kind") as LeadEnquiryKind | null;
+  const initialKind = journeys.some((item) => item.value === queryKind) ? queryKind! : "fibre_availability";
+  const [enquiryKind, setEnquiryKind] = useState<LeadEnquiryKind>(fixedKind ?? initialKind);
+  const [values, setValues] = useState({ selectedPlan: "10 Mbps - KSh 1,500/month", location: "", building: "", propertyType: "" as LeadPropertyType | "", contactRole: "" as LeadContactRole | "", unitCount: "", unitNumber: "", name: "", phone: "", whatsapp: "", email: "", contactPreference: "" as LeadContactPreference | "", preferredMeetingTime: "", preferredInstallationDate: "", message: "", consent: false });
   const [formState, setFormState] = useState<FormState>("idle");
   const [statusMessage, setStatusMessage] = useState("");
   const [reference, setReference] = useState("");
   const [fieldErrors, setFieldErrors] = useState<LeadFieldErrors>({});
   const errorSummaryRef = useRef<HTMLDivElement>(null);
   const whatsappHref = `https://wa.me/${businessProfile.whatsapp.replace("+", "")}`;
+  const isFibre = enquiryKind === "fibre_availability";
+  const isMeeting = enquiryKind === "property_meeting";
+  const isQuote = enquiryKind === "cctv_quote" || enquiryKind === "biometric_quote";
 
-  function clearError(field: LeadField) {
-    setFieldErrors((current) => {
-      if (!current[field]) return current;
-      const next = { ...current };
-      delete next[field];
-      return next;
-    });
+  function update<K extends keyof typeof values>(key: K, value: (typeof values)[K]) {
+    setValues((current) => ({ ...current, [key]: value }));
+    setFieldErrors((current) => { const next = { ...current }; delete next[key as LeadField]; return next; });
   }
-
-  function fieldError(field: LeadField) {
-    const error = fieldErrors[field];
-    return error ? <small className="field-error" id={`${field}-error`}>{error}</small> : null;
+  function error(field: LeadField) {
+    return fieldErrors[field] ? <small className="field-error" id={`${field}-error`}>{fieldErrors[field]}</small> : null;
   }
+  function described(field: LeadField) { return fieldErrors[field] ? `${field}-error` : undefined; }
 
   async function submit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setFormState("submitting");
-    setStatusMessage("");
-    setFieldErrors({});
-    const payload = {
-      service: serviceMap[topic],
-      selectedPlan: topic === "internet" && plan ? plan : undefined,
-      location,
-      building,
-      propertyType,
-      name,
-      phone,
-      email,
-      userCount,
-      contactPreference,
-      message: details,
-      consent,
-      source: "dedicated_enquiry_page",
-      website: new FormData(event.currentTarget).get("website")?.toString() ?? "",
-      utm: { source: search.get("utm_source") ?? undefined, medium: search.get("utm_medium") ?? undefined, campaign: search.get("utm_campaign") ?? undefined },
-    };
-
+    event.preventDefault(); setFormState("submitting"); setStatusMessage(""); setFieldErrors({});
+    const payload = { enquiryKind, ...values, source: fixedKind ? `embedded_${fixedKind}` : "dedicated_enquiry_page", website: new FormData(event.currentTarget).get("website")?.toString() ?? "", utm: { source: search.get("utm_source") ?? undefined, medium: search.get("utm_medium") ?? undefined, campaign: search.get("utm_campaign") ?? undefined } };
     try {
       const response = await fetch("/api/leads", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
       const result = (await response.json()) as LeadResponse;
       setStatusMessage(result.message);
-      if (response.ok && result.saved) {
-        setReference(result.reference);
-        setFormState("success");
-        return;
-      }
-      setFieldErrors(result.saved ? {} : (result.fieldErrors ?? {}));
-      setFormState("error");
-      requestAnimationFrame(() => errorSummaryRef.current?.focus());
+      if (response.ok && result.saved) { setReference(result.reference); setFormState("success"); return; }
+      setFieldErrors(result.saved ? {} : (result.fieldErrors ?? {})); setFormState("error"); requestAnimationFrame(() => errorSummaryRef.current?.focus());
     } catch {
-      setFormState("error");
-      setStatusMessage("The request could not be sent. Your details were not stored. Check your connection and try again, or use the official WhatsApp contact.");
-      requestAnimationFrame(() => errorSummaryRef.current?.focus());
+      setFormState("error"); setStatusMessage("The request could not be sent. Your details were not stored. Check your connection and try again, or use the official WhatsApp contact."); requestAnimationFrame(() => errorSummaryRef.current?.focus());
     }
   }
 
-  if (formState === "success") {
-    return (
-      <section className="enquiry-success" aria-live="polite">
-        <span>Request received</span>
-        <h2>Thank you, {name}.</h2>
-        <p>Your request has been sent. Keep reference <strong>{reference}</strong> for follow-up. We will contact you using the number provided.</p>
-        <div><Link className="button button-primary" href="/">Return home</Link><Link className="button button-outline" href="/contact">Contact & meetings</Link></div>
-      </section>
-    );
-  }
+  if (formState === "success") return <section className="enquiry-success" aria-live="polite"><span>Request received</span><h2>Thank you, {values.name}.</h2><p>Keep reference <strong>{reference}</strong> for follow-up. Shenacha will contact you using the details provided.</p><div><Link className="button button-primary" href="/">Return home</Link><Link className="button button-outline" href="/contact">Contact Shenacha</Link></div></section>;
 
   return (
-    <form className="dedicated-enquiry-form" onSubmit={submit} noValidate aria-busy={formState === "submitting"}>
-      {formState === "error" ? (
-        <div className="lead-feedback error error-summary" role="alert" tabIndex={-1} ref={errorSummaryRef}>
-          <strong>Request not sent</strong>
-          <p>{statusMessage}</p>
-          {Object.entries(fieldErrors).length ? <ul>{Object.entries(fieldErrors).map(([field, error]) => <li key={field}><a href={`#${field}`}>{error}</a></li>)}</ul> : null}
-          <a className="whatsapp-fallback" href={whatsappHref} target="_blank" rel="noreferrer"><WhatsAppIcon size={18} /> WhatsApp {businessProfile.whatsappDisplay}</a>
-        </div>
-      ) : null}
+    <form className="dedicated-enquiry-form journey-form" onSubmit={submit} noValidate aria-busy={formState === "submitting"}>
+      <div className="journey-form-heading"><p className="eyebrow">ENQUIRY FORM</p><h2>{heading ?? titles[enquiryKind]}</h2><p>Fields marked required help us review your request. Submitting does not confirm an installation, quote or appointment.</p></div>
+      {formState === "error" ? <div className="lead-feedback error error-summary" role="alert" tabIndex={-1} ref={errorSummaryRef}><strong>Request not sent</strong><p>{statusMessage}</p>{Object.keys(fieldErrors).length ? <ul>{Object.entries(fieldErrors).map(([field, message]) => <li key={field}><a href={`#${field}`}>{message}</a></li>)}</ul> : null}<a className="whatsapp-fallback" href={whatsappHref} target="_blank" rel="noreferrer"><WhatsAppIcon size={18} /> WhatsApp {businessProfile.whatsappDisplay}</a></div> : null}
 
-      <fieldset className="enquiry-step">
-        <legend><span>01</span><strong>Choose the service</strong><small>Pick the closest option. Add the practical details below.</small></legend>
-        <div className="service-choice-grid">
-          {services.map((item, index) => <label className={topic === item.key ? "is-selected" : ""} key={item.key}><input type="radio" name="service" value={item.key} checked={topic === item.key} onChange={() => { setTopic(item.key); clearError("service"); }} /><span className="choice-index">0{index + 1}</span><strong>{item.label}</strong><small>{item.help}</small></label>)}
-        </div>
-        {fieldError("service")}
-      </fieldset>
+      {!fixedKind ? <label className="field field-wide">What do you need? <span>Required</span><select id="enquiryKind" value={enquiryKind} onChange={(e) => { setEnquiryKind(e.target.value as LeadEnquiryKind); setFieldErrors({}); }}>{journeys.map((item) => <option value={item.value} key={item.value}>{item.label}</option>)}</select>{error("enquiryKind")}</label> : null}
 
-      <fieldset className="enquiry-step">
-        <legend><span>02</span><strong>Tell us about the property</strong><small>These details help us prepare before we contact you.</small></legend>
-        <div className="field-grid">
-          <label className="field">Nairobi area or neighbourhood <span>Required</span><input id="location" value={location} onChange={(event) => { setLocation(event.target.value); clearError("location"); }} placeholder="For example: Kilimani" autoComplete="address-level2" aria-invalid={Boolean(fieldErrors.location)} aria-describedby={fieldErrors.location ? "location-error" : undefined} />{fieldError("location")}</label>
-          <label className="field">Building, estate or unit <span>Optional</span><input id="building" value={building} onChange={(event) => { setBuilding(event.target.value); clearError("building"); }} placeholder="For example: Acacia Court, Block B" autoComplete="address-line1" aria-invalid={Boolean(fieldErrors.building)} aria-describedby={fieldErrors.building ? "building-error" : undefined} />{fieldError("building")}</label>
-          <fieldset className="property-choice field-wide" id="propertyType" aria-invalid={Boolean(fieldErrors.propertyType)} aria-describedby={fieldErrors.propertyType ? "propertyType-error" : undefined}><legend>Property type <span className="required-label">Required</span></legend><div>{properties.map((item) => <label className={propertyType === item.key ? "is-selected" : ""} key={item.key}><input type="radio" name="propertyType" value={item.key} checked={propertyType === item.key} onChange={() => { setPropertyType(item.key); clearError("propertyType"); }} />{item.label}</label>)}</div>{fieldError("propertyType")}</fieldset>
-          {topic === "internet" || topic === "access" ? <label className="field">{topic === "internet" ? "How many people normally use the connection?" : "About how many authorised users?"} <span>Required</span><input id="userCount" value={userCount} onChange={(event) => { setUserCount(event.target.value); clearError("userCount"); }} type="number" inputMode="numeric" min="1" placeholder={topic === "internet" ? "People using the Wi-Fi" : "People using the access system"} aria-invalid={Boolean(fieldErrors.userCount)} aria-describedby={fieldErrors.userCount ? "userCount-error" : undefined} />{fieldError("userCount")}</label> : null}
-          {topic === "internet" ? <label className="field field-wide">Selected plan <span>Optional</span><input value={plan} onChange={(event) => setPlan(event.target.value)} placeholder="Leave blank if you want a recommendation" /></label> : null}
-          <label className="field field-wide">{messageLabel[topic].label} <span>Optional</span><textarea id="message" value={details} onChange={(event) => { setDetails(event.target.value); clearError("message"); }} placeholder={messageLabel[topic].hint} rows={5} aria-invalid={Boolean(fieldErrors.message)} aria-describedby={fieldErrors.message ? "message-error message-help" : "message-help"} />{fieldError("message")}<small id="message-help">Do not include passwords, PINs or biometric information.</small></label>
-        </div>
-      </fieldset>
-
-      <fieldset className="enquiry-step">
-        <legend><span>03</span><strong>How should we reach you?</strong><small>Use a number the team can reach by call or WhatsApp.</small></legend>
-        <div className="field-grid">
-          <label className="field">Full name <span>Required</span><input id="name" value={name} onChange={(event) => { setName(event.target.value); clearError("name"); }} autoComplete="name" aria-invalid={Boolean(fieldErrors.name)} aria-describedby={fieldErrors.name ? "name-error" : undefined} />{fieldError("name")}</label>
-          <label className="field">Phone number <span>Required</span><input id="phone" value={phone} onChange={(event) => { setPhone(event.target.value); clearError("phone"); }} type="tel" inputMode="tel" autoComplete="tel" placeholder="0712 345 678 or +254 712 345 678" aria-invalid={Boolean(fieldErrors.phone)} aria-describedby={fieldErrors.phone ? "phone-error" : undefined} />{fieldError("phone")}</label>
-          <label className="field field-wide">Email address <span>Optional</span><input id="email" value={email} onChange={(event) => { setEmail(event.target.value); clearError("email"); }} type="email" inputMode="email" autoComplete="email" placeholder="name@example.com" aria-invalid={Boolean(fieldErrors.email)} aria-describedby={fieldErrors.email ? "email-error" : undefined} />{fieldError("email")}</label>
-          <fieldset className="contact-choice field-wide" id="contactPreference" aria-invalid={Boolean(fieldErrors.contactPreference)} aria-describedby={fieldErrors.contactPreference ? "contactPreference-error" : undefined}><legend>Preferred contact method <span className="required-label">Required</span></legend><div><label className={contactPreference === "whatsapp" ? "is-selected" : ""}><input type="radio" name="contactPreference" checked={contactPreference === "whatsapp"} onChange={() => { setContactPreference("whatsapp"); clearError("contactPreference"); }} /><WhatsAppIcon size={18} /> WhatsApp</label><label className={contactPreference === "call" ? "is-selected" : ""}><input type="radio" name="contactPreference" checked={contactPreference === "call"} onChange={() => { setContactPreference("call"); clearError("contactPreference"); }} />Phone call</label></div>{fieldError("contactPreference")}</fieldset>
-          <label className="honeypot" aria-hidden="true">Website<input name="website" tabIndex={-1} autoComplete="off" /></label>
-          <div className="field-wide"><label className="consent-field"><input id="consent" type="checkbox" checked={consent} onChange={(event) => { setConsent(event.target.checked); clearError("consent"); }} aria-invalid={Boolean(fieldErrors.consent)} aria-describedby={fieldErrors.consent ? "consent-error" : undefined} /><span>I agree that Shenacha may use these details to respond to this request. I understand this is not a confirmed installation or appointment. Read the <Link href="/privacy">privacy notice</Link>.</span></label>{fieldError("consent")}</div>
-        </div>
-      </fieldset>
-
-      <div className="enquiry-submit-row">
-        <div><strong>No payment is taken here.</strong><p>Submitting starts an enquiry; suitability, charges and meeting details are confirmed first.</p></div>
-        <button className="button button-primary" type="submit" disabled={formState === "submitting"}>{formState === "submitting" ? "Sending your request…" : <>Send my request <ArrowRight size={18} aria-hidden="true" /></>}</button>
+      <div className="field-grid">
+        <label className="field">{isFibre || isMeeting ? "Property location in Juja" : "Property location"} <span>Required</span><input id="location" value={values.location} onChange={(e) => update("location", e.target.value)} autoComplete="address-level2" placeholder={isFibre || isMeeting ? "Area or nearest landmark in Juja" : "Town, area or nearest landmark"} aria-invalid={Boolean(fieldErrors.location)} aria-describedby={described("location")} />{error("location")}</label>
+        {(isFibre || isMeeting) ? <label className="field">Apartment / building name <span>Required</span><input id="building" value={values.building} onChange={(e) => update("building", e.target.value)} autoComplete="address-line1" aria-invalid={Boolean(fieldErrors.building)} aria-describedby={described("building")} />{error("building")}</label> : null}
+        {isQuote ? <label className="field">Property type <span>Required</span><select id="propertyType" value={values.propertyType} onChange={(e) => update("propertyType", e.target.value as LeadPropertyType)} aria-invalid={Boolean(fieldErrors.propertyType)} aria-describedby={described("propertyType")}><option value="">Select property type</option>{propertyTypes.map((item) => <option value={item.value} key={item.value}>{item.label}</option>)}</select>{error("propertyType")}</label> : null}
+        {isMeeting ? <><label className="field">Number of units <span>Required</span><input id="unitCount" type="number" min="1" inputMode="numeric" value={values.unitCount} onChange={(e) => update("unitCount", e.target.value)} aria-invalid={Boolean(fieldErrors.unitCount)} aria-describedby={described("unitCount")} />{error("unitCount")}</label><label className="field">Your role <span>Required</span><select id="contactRole" value={values.contactRole} onChange={(e) => update("contactRole", e.target.value as LeadContactRole)} aria-invalid={Boolean(fieldErrors.contactRole)} aria-describedby={described("contactRole")}><option value="">Select your role</option>{contactRoles.map((item) => <option value={item.value} key={item.value}>{item.label}</option>)}</select>{error("contactRole")}</label></> : null}
+        {isFibre ? <><label className="field">House / unit number <span>Required</span><input id="unitNumber" value={values.unitNumber} onChange={(e) => update("unitNumber", e.target.value)} aria-invalid={Boolean(fieldErrors.unitNumber)} aria-describedby={described("unitNumber")} />{error("unitNumber")}</label><label className="field">Package <span>Required</span><input id="selectedPlan" value={values.selectedPlan} readOnly aria-readonly="true" aria-describedby={described("selectedPlan")} />{error("selectedPlan")}</label><label className="field">Preferred installation date <span>Optional</span><input id="preferredInstallationDate" type="date" value={values.preferredInstallationDate} onChange={(e) => update("preferredInstallationDate", e.target.value)} /></label></> : null}
+        <label className="field">Full name <span>Required</span><input id="name" value={values.name} onChange={(e) => update("name", e.target.value)} autoComplete="name" aria-invalid={Boolean(fieldErrors.name)} aria-describedby={described("name")} />{error("name")}</label>
+        <label className="field">Phone number <span>Required</span><input id="phone" type="tel" inputMode="tel" value={values.phone} onChange={(e) => update("phone", e.target.value)} autoComplete="tel" placeholder="0712 345 678" aria-invalid={Boolean(fieldErrors.phone)} aria-describedby={described("phone")} />{error("phone")}</label>
+        {(isFibre || isMeeting) ? <label className="field">WhatsApp number <span>Required</span><input id="whatsapp" type="tel" inputMode="tel" value={values.whatsapp} onChange={(e) => update("whatsapp", e.target.value)} autoComplete="tel" placeholder="0712 345 678" aria-invalid={Boolean(fieldErrors.whatsapp)} aria-describedby={described("whatsapp")} />{error("whatsapp")}</label> : null}
+        {(isMeeting || isQuote) ? <><label className="field">Email address <span>Optional</span><input id="email" type="email" value={values.email} onChange={(e) => update("email", e.target.value)} autoComplete="email" aria-invalid={Boolean(fieldErrors.email)} aria-describedby={described("email")} />{error("email")}</label><label className="field">Preferred contact method <span>Required</span><select id="contactPreference" value={values.contactPreference} onChange={(e) => update("contactPreference", e.target.value as LeadContactPreference)} aria-invalid={Boolean(fieldErrors.contactPreference)} aria-describedby={described("contactPreference")}><option value="">Choose a method</option><option value="whatsapp">WhatsApp</option><option value="call">Phone call</option><option value="email">Email</option></select>{error("contactPreference")}</label></> : null}
+        {isMeeting ? <label className="field field-wide">Preferred meeting time <span>Required</span><input id="preferredMeetingTime" value={values.preferredMeetingTime} onChange={(e) => update("preferredMeetingTime", e.target.value)} placeholder="For example: weekday morning" aria-invalid={Boolean(fieldErrors.preferredMeetingTime)} aria-describedby={described("preferredMeetingTime")} />{error("preferredMeetingTime")}</label> : null}
+        <label className="field field-wide">{enquiryKind === "support" ? "Describe the problem" : "Additional information"} <span>{enquiryKind === "support" ? "Required" : "Optional"}</span><textarea id="message" rows={5} value={values.message} onChange={(e) => update("message", e.target.value)} aria-invalid={Boolean(fieldErrors.message)} aria-describedby={described("message")} />{error("message")}<small>Do not include passwords, PINs or biometric information.</small></label>
+        <label className="honeypot" aria-hidden="true">Website<input name="website" tabIndex={-1} autoComplete="off" /></label>
+        <div className="field-wide"><label className="consent-field"><input id="consent" type="checkbox" checked={values.consent} onChange={(e) => update("consent", e.target.checked)} aria-invalid={Boolean(fieldErrors.consent)} aria-describedby={described("consent")} /><span>I agree that Shenacha may use these details to respond to this request. Read the <Link href="/privacy">privacy notice</Link>.</span></label>{error("consent")}</div>
       </div>
+      <div className="enquiry-submit-row"><div><strong>No payment is taken here.</strong><p>Availability, assessment, pricing and timing are confirmed before you commit.</p></div><button className="button button-primary" type="submit" disabled={formState === "submitting"}>{formState === "submitting" ? "Sending your request..." : <>Submit request <ArrowRight size={18} aria-hidden="true" /></>}</button></div>
       <p className="sr-status" role="status" aria-live="polite">{formState === "submitting" ? "Sending your request. Please wait." : ""}</p>
     </form>
   );

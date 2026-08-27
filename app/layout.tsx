@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { DM_Sans, Manrope } from "next/font/google";
 import { businessProfile } from "@/lib/business";
 import "./globals.css";
+import "./canonical.css";
 
 const display = Manrope({
   subsets: ["latin"],
@@ -18,21 +19,20 @@ const body = DM_Sans({
 export const metadata: Metadata = {
   metadataBase: new URL("https://shenachafiber.com"),
   title: {
-    default: "Shenacha Fiber | Internet, CCTV & Biometric Access in Nairobi",
+    default: "Shenacha | Connectivity, Security & Access",
     template: "%s | Shenacha Fiber",
   },
   description:
-    "Fibre and Wi-Fi connections, structured cabling, CCTV installation and biometric access for Nairobi homes, apartments and offices.",
+    "Fibre internet in Juja, plus professional CCTV and biometric access solutions wherever your property is located.",
   keywords: [
-    "fibre internet Nairobi",
-    "Wi-Fi installation Nairobi",
-    "CCTV installation Nairobi",
-    "biometric gate access Nairobi",
-    "cable trunking Nairobi",
+    "fibre internet Juja",
+    "CCTV installation Kenya",
+    "biometric access control Kenya",
+    "property technology solutions",
   ],
   openGraph: {
     title: "Shenacha Fiber",
-    description: "Connected. Secured. Supported across Nairobi.",
+    description: "Connectivity. Security. Access. Fibre in Juja; CCTV and biometric access wherever your property is located.",
     url: "https://shenachafiber.com",
     siteName: "Shenacha Fiber",
     locale: "en_KE",
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Shenacha Fiber",
-    description: "Fibre internet, structured cabling, CCTV and biometric access services in Nairobi.",
+    description: "Fibre internet in Juja, plus CCTV and biometric access solutions for properties wherever located.",
     images: ["/images/family-laptop.jpg"],
   },
 };
@@ -67,14 +67,17 @@ const localBusinessSchema = {
         { "@type": "ContactPoint", telephone: businessProfile.whatsapp, contactType: "WhatsApp enquiries", availableLanguage: ["English", "Swahili"] },
         { "@type": "ContactPoint", telephone: businessProfile.supportPhone, contactType: "customer support", availableLanguage: ["English", "Swahili"] },
       ],
-      areaServed: { "@type": "City", name: "Nairobi" },
+      areaServed: [
+        { "@type": "Place", name: "Juja", description: "Fibre internet service area" },
+        { "@type": "Country", name: "Kenya", description: "CCTV and biometric access enquiries are accepted based on property location" },
+      ],
       hasOfferCatalog: {
         "@type": "OfferCatalog",
         name: "Connectivity and security services",
         itemListElement: [
-          { "@type": "Offer", itemOffered: { "@type": "Service", name: "Fibre internet, Wi-Fi and structured cabling", url: "https://shenachafiber.com/services/fiber-internet-nairobi" } },
-          { "@type": "Offer", itemOffered: { "@type": "Service", name: "CCTV installation", url: "https://shenachafiber.com/services/cctv-installation-nairobi" } },
-          { "@type": "Offer", itemOffered: { "@type": "Service", name: "Biometric access control", url: "https://shenachafiber.com/services/biometric-access-control-nairobi" } },
+          { "@type": "Offer", itemOffered: { "@type": "Service", name: "Fibre internet in Juja", url: "https://shenachafiber.com/fibre-internet" } },
+          { "@type": "Offer", itemOffered: { "@type": "Service", name: "CCTV solutions", url: "https://shenachafiber.com/cctv" } },
+          { "@type": "Offer", itemOffered: { "@type": "Service", name: "Biometric access control", url: "https://shenachafiber.com/biometric-access" } },
         ],
       },
     },

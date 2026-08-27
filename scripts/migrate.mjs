@@ -12,8 +12,10 @@ export async function runMigration(databaseUrl, source) {
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  if (!process.env.DATABASE_URL) throw new Error("DATABASE_URL is required. No migration was run.");
-  const migrationUrl = new URL("../migrations/001_website_leads.sql", import.meta.url);
-  await runMigration(process.env.DATABASE_URL, await readFile(migrationUrl, "utf8"));
-  console.log("website_leads migration completed");
+  if (!process.env.DATABASE_URL_UNPOOLED) throw new Error("DATABASE_URL_UNPOOLED is required. No migration was run.");
+  for (const file of ["001_website_leads.sql", "002_structured_enquiries.sql"]) {
+    const migrationUrl = new URL(`../migrations/${file}`, import.meta.url);
+    await runMigration(process.env.DATABASE_URL_UNPOOLED, await readFile(migrationUrl, "utf8"));
+  }
+  console.log("website_leads migrations completed");
 }

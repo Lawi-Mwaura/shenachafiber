@@ -7,11 +7,12 @@ import { X } from "@phosphor-icons/react/dist/icons/X";
 import { useEffect, useState } from "react";
 
 const navigation = [
-  { label: "Internet", href: "/services/fiber-internet-nairobi" },
-  { label: "CCTV", href: "/services/cctv-installation-nairobi" },
-  { label: "Biometrics", href: "/services/biometric-access-control-nairobi" },
-  { label: "Contact us", href: "/contact" },
-  { label: "Help", href: "/help" },
+  { label: "About us", href: "/about" },
+  { label: "Fibre internet", href: "/fibre-internet" },
+  { label: "CCTV", href: "/cctv" },
+  { label: "Biometric access", href: "/biometric-access" },
+  { label: "Coverage", href: "/coverage" },
+  { label: "Contact", href: "/contact" },
 ];
 
 export function SiteHeader() {
@@ -50,12 +51,12 @@ export function SiteHeader() {
           </Link>
         ))}
         <div className="mobile-nav-actions">
-          <Link className="button button-primary" href="/enquire" prefetch={false} onClick={() => setMenuOpen(false)}>Start an enquiry</Link>
-          <Link className="button button-outline" href="/enquire?service=internet" prefetch={false} onClick={() => setMenuOpen(false)}>Discuss internet service</Link>
+          <Link className="button button-primary" href="/coverage#availability-form" prefetch={false} onClick={() => setMenuOpen(false)}>Check fibre availability</Link>
+          <Link className="button button-outline" href="/help" prefetch={false} onClick={() => setMenuOpen(false)}>Help & support</Link>
         </div>
       </nav>
       <div className="header-actions">
-        <Link className="button button-primary header-coverage" href="/enquire" prefetch={false}>Start an enquiry</Link>
+        <Link className="button button-primary header-coverage" href="/coverage#availability-form" prefetch={false}>Check fibre</Link>
         <button className="menu-button" type="button" aria-label={menuOpen ? "Close menu" : "Open menu"} aria-controls="primary-navigation" aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)}>
           {menuOpen ? <X size={24} aria-hidden="true" /> : <List size={24} aria-hidden="true" />}
         </button>

@@ -14,25 +14,26 @@ export function SiteFooter({ showFloatingChat = true }: SiteFooterProps) {
       <footer className="site-footer site-footer-expanded">
         <div className="footer-intro">
           <Link className="brand footer-brand" href="/" aria-label="Shenacha Fiber home"><span>SHENACHA FIBER</span></Link>
-          <p>Fibre internet, structured cabling, CCTV and biometric access for Nairobi homes, apartments, offices and other premises.</p>
+          <p>Fibre internet in Juja, plus CCTV and biometric access solutions wherever your property is located.</p>
         </div>
         <div className="footer-column">
           <strong>Services</strong>
-          <Link href="/services/fiber-internet-nairobi">Fibre & Wi-Fi</Link>
-          <Link href="/services/cctv-installation-nairobi">CCTV installation</Link>
-          <Link href="/services/biometric-access-control-nairobi">Biometric access</Link>
+          <Link href="/fibre-internet">Fibre internet</Link>
+          <Link href="/cctv">CCTV solutions</Link>
+          <Link href="/biometric-access">Biometric access</Link>
         </div>
         <div className="footer-column">
           <strong>Start here</strong>
-          <Link href="/enquire">Start an enquiry</Link>
-          <Link href="/contact">Contact & meetings</Link>
+          <Link href="/coverage">Check fibre availability</Link>
+          <Link href="/fibre-internet#property-meeting">Book a property meeting</Link>
+          <Link href="/contact">Contact Shenacha</Link>
           <a href={whatsappHref} target="_blank" rel="noreferrer"><WhatsAppIcon size={17} /> WhatsApp {businessProfile.whatsappDisplay}</a>
           <a href={`tel:${businessProfile.supportPhone}`}>Support {businessProfile.supportPhoneDisplay}</a>
           <a href={`mailto:${businessProfile.email}`}>{businessProfile.email}</a>
           <Link href="/help">Troubleshooting</Link>
           <Link href="/privacy">Privacy</Link>
         </div>
-        <p className="footer-legal">© 2026 Shenacha Fiber</p>
+        <p className="footer-legal">© 2026 Shenacha Fiber · Meetings and assessments are arranged in advance; there is no walk-in office.</p>
       </footer>
       {showFloatingChat ? (
         <a className="floating-chat" href={whatsappHref} target="_blank" rel="noreferrer" aria-label={`WhatsApp Shenacha Fiber on ${businessProfile.whatsappDisplay}`}>

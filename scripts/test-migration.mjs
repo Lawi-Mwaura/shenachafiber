@@ -10,11 +10,13 @@ const suffix = randomBytes(5).toString("hex");
 const emptyTable = `website_leads_empty_${suffix}`;
 const legacyTable = `website_leads_legacy_${suffix}`;
 const sql = neon(databaseUrl);
-const migration = await readFile(new URL("../migrations/001_website_leads.sql", import.meta.url), "utf8");
+const migration = `${await readFile(new URL("../migrations/001_website_leads.sql", import.meta.url), "utf8")}\n${await readFile(new URL("../migrations/002_structured_enquiries.sql", import.meta.url), "utf8")}`;
 
 function forTable(table) {
   return migration
     .replaceAll("website_leads_public_reference_idx", `${table}_reference_idx`)
+    .replaceAll("website_leads_enquiry_kind_idx", `${table}_enquiry_kind_idx`)
+    .replaceAll("website_leads_submitted_at_idx", `${table}_submitted_at_idx`)
     .replaceAll("website_leads", table);
 }
 
@@ -35,7 +37,7 @@ try {
   const emptyColumns = await sql.query(`SELECT column_name FROM information_schema.columns WHERE table_name = '${emptyTable}'`);
   const legacyRows = await sql.query(`SELECT public_reference, message, consent_granted, submitted_at FROM ${legacyTable}`);
   const names = new Set(emptyColumns.map((row) => row.column_name));
-  for (const required of ["public_reference", "building", "message", "consent_granted", "submitted_at"]) {
+  for (const required of ["public_reference", "building", "message", "consent_granted", "submitted_at", "enquiry_kind", "contact_role", "unit_count", "unit_number", "whatsapp", "preferred_meeting_time", "preferred_installation_date"]) {
     if (!names.has(required)) throw new Error(`Empty-table migration is missing ${required}`);
   }
   if (!legacyRows[0]?.public_reference || legacyRows[0].message !== "legacy message" || legacyRows[0].consent_granted !== true || !legacyRows[0].submitted_at) {

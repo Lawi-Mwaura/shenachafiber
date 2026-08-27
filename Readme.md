@@ -1,6 +1,6 @@
-# Shenacha Fiber website
+# Shenacha website
 
-Production-oriented Next.js site for Shenacha Fiber in Nairobi. The existing navy, white and restrained-red visual system, routes, package information and supplied fibre-ready board artwork are retained.
+Next.js website for Shenacha's three services: fibre internet in Juja, plus CCTV and biometric access solutions for properties wherever they are located. The visual system uses the existing editorial navy, white and restrained-red direction.
 
 ## Local development
 
@@ -9,33 +9,44 @@ npm install
 npm run dev
 ```
 
-Open the URL printed by Next.js (normally `http://localhost:3000`). The static pages work without database credentials. In that state, a valid enquiry returns `503`; the form keeps the entered values and says clearly that the request was not sent or stored, with the official WhatsApp contact as a fallback. The app never fakes a successful submission or writes enquiries to local files.
+The static pages work without database credentials. In that state, a valid enquiry returns `503`; the form keeps the entered values and clearly says that nothing was sent or stored, with the official WhatsApp contact as a fallback.
 
-Copy `.env.example` to `.env.local` only when a Neon database is available. `DATABASE_URL` is server-only and must never use the `NEXT_PUBLIC_` prefix.
+Copy `.env.example` to `.env.local` only when the Shenacha Neon project is available. Keep both variables server-only:
+
+- `DATABASE_URL`: pooled connection for the Next.js API.
+- `DATABASE_URL_UNPOOLED`: direct connection for migrations.
+
+Never use a `NEXT_PUBLIC_` prefix for either value.
 
 ## Neon setup and migration
 
-1. Create or select the intended Neon database and copy its pooled connection string into `DATABASE_URL`.
-2. Review `migrations/001_website_leads.sql`.
-3. Run the migration before deploying the API:
+The workspace is linked to the Shenacha Neon project with the named `shenacha` CLI profile. The existing `DEFAULT` profile is unrelated and must not be repurposed. A project-local MCP server is configured as `neon_shenacha`.
+
+Migrations run in order from `migrations/001_website_leads.sql` and `migrations/002_structured_enquiries.sql`:
 
 ```bash
 npm run db:migrate
 ```
 
-The migration is idempotent. It supports an empty database and the legacy table previously created in the request path, preserves legacy columns, copies `notes` into `message`, backfills consent/submission data, and adds non-sequential public references. Schema creation never runs during an enquiry request.
+Verify the pooled application connection, direct migration connection and enquiry table without writing data:
 
-To verify both empty and legacy shapes, set `NEON_TEST_DATABASE_URL` to a disposable test database and run:
+```bash
+npm run db:check
+```
+
+The migration command requires `DATABASE_URL_UNPOOLED`. To verify empty and legacy schemas, point `NEON_TEST_DATABASE_URL` only at a disposable Neon child branch and run:
 
 ```bash
 npm run db:test-migration
 ```
 
-That test creates uniquely named temporary tables, executes the migration twice against each shape, checks the results, and drops only those temporary tables. Do not point it at a production database.
+The compatibility test creates uniquely named tables, executes both migrations twice, checks structured fields and legacy backfills, and drops only its temporary tables.
 
 ## Stored enquiry data
 
-`website_leads` stores an internal ID, non-sequential public reference, service, optional selected plan, Nairobi area/location, optional building or unit, property type, conditional user count, optional message, name, normalized Kenyan phone, optional normalized email, contact preference, explicit consent state and server-generated consent time, source/UTM attribution, and server-generated submission time. The API uses parameterized Neon queries and never returns the internal sequential ID.
+`website_leads` stores a non-sequential public reference and structured enquiry data for fibre availability, property meetings, CCTV quotes, biometric quotes and support. Kenyan phone and WhatsApp numbers are normalized. Consent and submission timestamps are created by the server. The internal sequential ID is never returned by the API.
+
+The API accepts at most 16 KiB of JSON, rejects honeypot submissions, conditionally validates each journey, returns `Cache-Control: no-store`, and avoids logging names, phone numbers, email addresses, locations or messages.
 
 ## Verification
 
@@ -46,17 +57,4 @@ npm run build
 npm audit
 ```
 
-After a build, run `npm start` and smoke-check `/`, `/enquire`, `/contact`, `/help`, `/privacy`, each `/services/...` route, `/sitemap.xml`, `/robots.txt`, `/manifest.webmanifest`, legacy redirects, and `POST /api/leads`. A production deployment requires the migration to have completed and `DATABASE_URL` to be configured in the server environment.
-
-The enquiry API accepts at most 16 KiB of JSON, rejects honeypot submissions, allowlists service/property/contact values, normalizes Kenyan mobile numbers, validates optional email and conditional user counts, requires explicit consent, returns `Cache-Control: no-store`, and logs no names, phone numbers, email addresses, locations or messages.
-
-## Launch items still requiring owner confirmation
-
-- Official speeds, prices, installation charges, router ownership, Fair Usage Policy, and contract terms
-- Response expectations, meeting arrangements and support-hour commitments
-- A real Shenacha logo and genuine project/customer photography
-- Verified service areas, reviews, warranty terms, and support commitments
-- Final privacy-controller identity, retention period, and deletion-contact wording
-- Branded favicon and a dedicated social-sharing image
-
-Do not invent these details. The current stock photography should be replaced with genuine Shenacha work when it becomes available.
+Smoke-check `/`, `/about`, `/fibre-internet`, `/cctv`, `/biometric-access`, `/coverage`, `/contact`, `/enquire`, `/help`, `/privacy`, metadata endpoints, and all legacy redirects at desktop and mobile widths.

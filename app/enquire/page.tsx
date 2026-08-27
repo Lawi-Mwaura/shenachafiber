@@ -6,10 +6,10 @@ import { SiteFooter } from "@/components/site-footer";
 import { EnquiryForm } from "@/components/enquiry-form";
 
 export const metadata: Metadata = {
-  title: "Request Internet, CCTV or Access Service in Nairobi",
-  description: "Tell Shenacha Fiber your contact details, Nairobi location, property type and service needs for internet, CCTV, biometric access or support.",
+  title: "Start a Shenacha Enquiry",
+  description: "Check fibre availability in Juja, book a property meeting, request a CCTV or biometric quote, or contact support.",
   alternates: { canonical: "/enquire" },
-  openGraph: { url: "/enquire", title: "Start an enquiry with Shenacha", description: "Request internet, CCTV, biometric access or connection support in Nairobi." },
+  openGraph: { url: "/enquire", title: "Start an enquiry with Shenacha", description: "Choose the right fibre, property, security, access or support journey." },
 };
 
 export default function EnquirePage() {
@@ -21,7 +21,7 @@ export default function EnquirePage() {
           <div>
             <p className="eyebrow">START AN ENQUIRY</p>
             <h1>Tell us what you need.</h1>
-            <p>Choose a service and share your Nairobi area and property type. We will review the details and contact you about coverage, a site assessment or support.</p>
+            <p>Choose the enquiry that matches your need. Fibre requests are for Juja; CCTV and biometric access requests can be made for a property wherever it is located.</p>
             <p className="enquire-reassurance">No payment is taken here. Submitting the form does not confirm an installation or appointment.</p>
           </div>
           <div className="enquire-hero-image"><Image src="/images/family-laptop.jpg" alt="A family using a laptop together at home" fill priority sizes="(max-width: 900px) 100vw, 42vw" /></div>

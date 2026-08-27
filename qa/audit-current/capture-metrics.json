@@ -1,0 +1,562 @@
+{
+  "baseUrl": "http://127.0.0.1:3100",
+  "evidence": [
+    {
+      "number": "01",
+      "slug": "home",
+      "route": "/",
+      "viewport": "desktop",
+      "file": "qa/audit-current/01-home-desktop.png",
+      "metrics": {
+        "title": "Shenacha | Connectivity, Security & Access",
+        "h1": "Connectivity.Security.Access.",
+        "width": 1440,
+        "scrollWidth": 1440,
+        "height": 4361,
+        "bodyTextLength": 1683,
+        "images": [
+          {
+            "alt": "A residential apartment property served by Shenacha solutions",
+            "complete": true,
+            "naturalWidth": 748,
+            "naturalHeight": 562,
+            "width": 634,
+            "height": 590
+          },
+          {
+            "alt": "A family using a laptop together at home",
+            "complete": true,
+            "naturalWidth": 720,
+            "naturalHeight": 406,
+            "width": 620,
+            "height": 500
+          },
+          {
+            "alt": "A technician installing a CCTV camera at a property",
+            "complete": true,
+            "naturalWidth": 720,
+            "naturalHeight": 470,
+            "width": 620,
+            "height": 500
+          },
+          {
+            "alt": "A person using a fingerprint access-control reader",
+            "complete": true,
+            "naturalWidth": 720,
+            "naturalHeight": 1080,
+            "width": 620,
+            "height": 500
+          }
+        ],
+        "duplicateIds": []
+      }
+    },
+    {
+      "number": "02",
+      "slug": "about",
+      "route": "/about",
+      "viewport": "desktop",
+      "file": "qa/audit-current/02-about-desktop.png",
+      "metrics": {
+        "title": "About Shenacha | Shenacha Fiber",
+        "h1": "One Company.Three Solutions.",
+        "width": 1440,
+        "scrollWidth": 1440,
+        "height": 2765,
+        "bodyTextLength": 1332,
+        "images": [
+          {
+            "alt": "A network technician working with communications equipment",
+            "complete": true,
+            "naturalWidth": 691,
+            "naturalHeight": 460,
+            "width": 635,
+            "height": 590
+          }
+        ],
+        "duplicateIds": []
+      }
+    },
+    {
+      "number": "03",
+      "slug": "fibre-internet",
+      "route": "/fibre-internet",
+      "viewport": "desktop",
+      "file": "qa/audit-current/03-fibre-internet-desktop.png",
+      "metrics": {
+        "title": "Reliable Fibre Internet in Juja | Shenacha Fiber",
+        "h1": "Reliable Fibre Internet in Juja",
+        "width": 1440,
+        "scrollWidth": 1440,
+        "height": 6283,
+        "bodyTextLength": 3110,
+        "images": [
+          {
+            "alt": "A resident using fibre internet from a home office",
+            "complete": true,
+            "naturalWidth": 691,
+            "naturalHeight": 1036,
+            "width": 635,
+            "height": 590
+          },
+          {
+            "alt": "Complete Shenacha Fiber Solutions internet-fibre-ready premises poster",
+            "complete": true,
+            "naturalWidth": 390,
+            "naturalHeight": 551,
+            "width": 520,
+            "height": 734
+          }
+        ],
+        "duplicateIds": [
+          "location",
+          "building",
+          "name",
+          "phone",
+          "whatsapp",
+          "message",
+          "consent"
+        ]
+      }
+    },
+    {
+      "number": "04",
+      "slug": "cctv",
+      "route": "/cctv",
+      "viewport": "desktop",
+      "file": "qa/audit-current/04-cctv-desktop.png",
+      "metrics": {
+        "title": "Professional CCTV Solutions | Shenacha Fiber",
+        "h1": "Professional CCTV Solutions",
+        "width": 1440,
+        "scrollWidth": 1440,
+        "height": 3587,
+        "bodyTextLength": 2094,
+        "images": [
+          {
+            "alt": "A technician installing a CCTV surveillance camera",
+            "complete": true,
+            "naturalWidth": 691,
+            "naturalHeight": 451,
+            "width": 635,
+            "height": 590
+          }
+        ],
+        "duplicateIds": []
+      }
+    },
+    {
+      "number": "05",
+      "slug": "biometric-access",
+      "route": "/biometric-access",
+      "viewport": "desktop",
+      "file": "qa/audit-current/05-biometric-access-desktop.png",
+      "metrics": {
+        "title": "Smarter, Safer Biometric Access | Shenacha Fiber",
+        "h1": "Smarter, Safer Access",
+        "width": 1440,
+        "scrollWidth": 1440,
+        "height": 3644,
+        "bodyTextLength": 2091,
+        "images": [
+          {
+            "alt": "A person using a fingerprint access-control reader",
+            "complete": true,
+            "naturalWidth": 691,
+            "naturalHeight": 1036,
+            "width": 635,
+            "height": 590
+          }
+        ],
+        "duplicateIds": []
+      }
+    },
+    {
+      "number": "06",
+      "slug": "coverage",
+      "route": "/coverage",
+      "viewport": "desktop",
+      "file": "qa/audit-current/06-coverage-desktop.png",
+      "metrics": {
+        "title": "Fibre Coverage in Juja | Shenacha Fiber",
+        "h1": "Check fibre availability in Juja.",
+        "width": 1440,
+        "scrollWidth": 1440,
+        "height": 3438,
+        "bodyTextLength": 1918,
+        "images": [
+          {
+            "alt": "Complete Shenacha Fiber Solutions internet-fibre-ready premises poster",
+            "complete": true,
+            "naturalWidth": 390,
+            "naturalHeight": 551,
+            "width": 520,
+            "height": 734
+          }
+        ],
+        "duplicateIds": []
+      }
+    },
+    {
+      "number": "07",
+      "slug": "contact",
+      "route": "/contact",
+      "viewport": "desktop",
+      "file": "qa/audit-current/07-contact-desktop.png",
+      "metrics": {
+        "title": "Contact Shenacha | Shenacha Fiber",
+        "h1": "Let’s talk about your property.",
+        "width": 1440,
+        "scrollWidth": 1440,
+        "height": 2498,
+        "bodyTextLength": 1632,
+        "images": [],
+        "duplicateIds": []
+      }
+    },
+    {
+      "number": "08",
+      "slug": "enquire",
+      "route": "/enquire",
+      "viewport": "desktop",
+      "file": "qa/audit-current/08-enquire-desktop.png",
+      "metrics": {
+        "title": "Start a Shenacha Enquiry | Shenacha Fiber",
+        "h1": "Tell us what you need.",
+        "width": 1440,
+        "scrollWidth": 1440,
+        "height": 2775,
+        "bodyTextLength": 1697,
+        "images": [
+          {
+            "alt": "A family using a laptop together at home",
+            "complete": true,
+            "naturalWidth": 604,
+            "naturalHeight": 341,
+            "width": 589,
+            "height": 620
+          }
+        ],
+        "duplicateIds": []
+      }
+    },
+    {
+      "number": "09",
+      "slug": "help",
+      "route": "/help",
+      "viewport": "desktop",
+      "file": "qa/audit-current/09-help-desktop.png",
+      "metrics": {
+        "title": "Internet Troubleshooting & Payment Help | Shenacha Fiber",
+        "h1": "Internet not working? Check these three things.",
+        "width": 1440,
+        "scrollWidth": 1440,
+        "height": 3265,
+        "bodyTextLength": 2093,
+        "images": [],
+        "duplicateIds": []
+      }
+    },
+    {
+      "number": "10",
+      "slug": "privacy",
+      "route": "/privacy",
+      "viewport": "desktop",
+      "file": "qa/audit-current/10-privacy-desktop.png",
+      "metrics": {
+        "title": "Privacy Notice | Shenacha Fiber",
+        "h1": "How we use your enquiry details.",
+        "width": 1440,
+        "scrollWidth": 1440,
+        "height": 2526,
+        "bodyTextLength": 2521,
+        "images": [],
+        "duplicateIds": []
+      }
+    },
+    {
+      "number": "01",
+      "slug": "home",
+      "route": "/",
+      "viewport": "mobile",
+      "file": "qa/audit-current/01-home-mobile.png",
+      "metrics": {
+        "title": "Shenacha | Connectivity, Security & Access",
+        "h1": "Connectivity.Security.Access.",
+        "width": 375,
+        "scrollWidth": 375,
+        "height": 5651,
+        "bodyTextLength": 1598,
+        "images": [
+          {
+            "alt": "A residential apartment property served by Shenacha solutions",
+            "complete": true,
+            "naturalWidth": 374,
+            "naturalHeight": 281,
+            "width": 347,
+            "height": 380
+          },
+          {
+            "alt": "A family using a laptop together at home",
+            "complete": true,
+            "naturalWidth": 374,
+            "naturalHeight": 210,
+            "width": 347,
+            "height": 360
+          },
+          {
+            "alt": "A technician installing a CCTV camera at a property",
+            "complete": true,
+            "naturalWidth": 374,
+            "naturalHeight": 245,
+            "width": 347,
+            "height": 360
+          },
+          {
+            "alt": "A person using a fingerprint access-control reader",
+            "complete": true,
+            "naturalWidth": 374,
+            "naturalHeight": 562,
+            "width": 347,
+            "height": 360
+          }
+        ],
+        "duplicateIds": []
+      }
+    },
+    {
+      "number": "02",
+      "slug": "about",
+      "route": "/about",
+      "viewport": "mobile",
+      "file": "qa/audit-current/02-about-mobile.png",
+      "metrics": {
+        "title": "About Shenacha | Shenacha Fiber",
+        "h1": "One Company.Three Solutions.",
+        "width": 375,
+        "scrollWidth": 375,
+        "height": 3795,
+        "bodyTextLength": 1247,
+        "images": [
+          {
+            "alt": "A network technician working with communications equipment",
+            "complete": true,
+            "naturalWidth": 374,
+            "naturalHeight": 249,
+            "width": 347,
+            "height": 380
+          }
+        ],
+        "duplicateIds": []
+      }
+    },
+    {
+      "number": "03",
+      "slug": "fibre-internet",
+      "route": "/fibre-internet",
+      "viewport": "mobile",
+      "file": "qa/audit-current/03-fibre-internet-mobile.png",
+      "metrics": {
+        "title": "Reliable Fibre Internet in Juja | Shenacha Fiber",
+        "h1": "Reliable Fibre Internet in Juja",
+        "width": 375,
+        "scrollWidth": 375,
+        "height": 9031,
+        "bodyTextLength": 3025,
+        "images": [
+          {
+            "alt": "A resident using fibre internet from a home office",
+            "complete": true,
+            "naturalWidth": 374,
+            "naturalHeight": 562,
+            "width": 347,
+            "height": 380
+          },
+          {
+            "alt": "Complete Shenacha Fiber Solutions internet-fibre-ready premises poster",
+            "complete": true,
+            "naturalWidth": 330,
+            "naturalHeight": 466,
+            "width": 347,
+            "height": 490
+          }
+        ],
+        "duplicateIds": [
+          "location",
+          "building",
+          "name",
+          "phone",
+          "whatsapp",
+          "message",
+          "consent"
+        ]
+      }
+    },
+    {
+      "number": "04",
+      "slug": "cctv",
+      "route": "/cctv",
+      "viewport": "mobile",
+      "file": "qa/audit-current/04-cctv-mobile.png",
+      "metrics": {
+        "title": "Professional CCTV Solutions | Shenacha Fiber",
+        "h1": "Professional CCTV Solutions",
+        "width": 375,
+        "scrollWidth": 375,
+        "height": 5152,
+        "bodyTextLength": 2009,
+        "images": [
+          {
+            "alt": "A technician installing a CCTV surveillance camera",
+            "complete": true,
+            "naturalWidth": 374,
+            "naturalHeight": 245,
+            "width": 347,
+            "height": 380
+          }
+        ],
+        "duplicateIds": []
+      }
+    },
+    {
+      "number": "05",
+      "slug": "biometric-access",
+      "route": "/biometric-access",
+      "viewport": "mobile",
+      "file": "qa/audit-current/05-biometric-access-mobile.png",
+      "metrics": {
+        "title": "Smarter, Safer Biometric Access | Shenacha Fiber",
+        "h1": "Smarter, Safer Access",
+        "width": 375,
+        "scrollWidth": 375,
+        "height": 5114,
+        "bodyTextLength": 2006,
+        "images": [
+          {
+            "alt": "A person using a fingerprint access-control reader",
+            "complete": true,
+            "naturalWidth": 374,
+            "naturalHeight": 562,
+            "width": 347,
+            "height": 380
+          }
+        ],
+        "duplicateIds": []
+      }
+    },
+    {
+      "number": "06",
+      "slug": "coverage",
+      "route": "/coverage",
+      "viewport": "mobile",
+      "file": "qa/audit-current/06-coverage-mobile.png",
+      "metrics": {
+        "title": "Fibre Coverage in Juja | Shenacha Fiber",
+        "h1": "Check fibre availability in Juja.",
+        "width": 375,
+        "scrollWidth": 375,
+        "height": 4753,
+        "bodyTextLength": 1833,
+        "images": [
+          {
+            "alt": "Complete Shenacha Fiber Solutions internet-fibre-ready premises poster",
+            "complete": true,
+            "naturalWidth": 330,
+            "naturalHeight": 466,
+            "width": 347,
+            "height": 490
+          }
+        ],
+        "duplicateIds": []
+      }
+    },
+    {
+      "number": "07",
+      "slug": "contact",
+      "route": "/contact",
+      "viewport": "mobile",
+      "file": "qa/audit-current/07-contact-mobile.png",
+      "metrics": {
+        "title": "Contact Shenacha | Shenacha Fiber",
+        "h1": "Let’s talk about your property.",
+        "width": 375,
+        "scrollWidth": 375,
+        "height": 3635,
+        "bodyTextLength": 1557,
+        "images": [],
+        "duplicateIds": []
+      }
+    },
+    {
+      "number": "08",
+      "slug": "enquire",
+      "route": "/enquire",
+      "viewport": "mobile",
+      "file": "qa/audit-current/08-enquire-mobile.png",
+      "metrics": {
+        "title": "Start a Shenacha Enquiry | Shenacha Fiber",
+        "h1": "Tell us what you need.",
+        "width": 375,
+        "scrollWidth": 375,
+        "height": 3778,
+        "bodyTextLength": 1622,
+        "images": [
+          {
+            "alt": "A family using a laptop together at home",
+            "complete": true,
+            "naturalWidth": 374,
+            "naturalHeight": 210,
+            "width": 375,
+            "height": 390
+          }
+        ],
+        "duplicateIds": []
+      }
+    },
+    {
+      "number": "09",
+      "slug": "help",
+      "route": "/help",
+      "viewport": "mobile",
+      "file": "qa/audit-current/09-help-mobile.png",
+      "metrics": {
+        "title": "Internet Troubleshooting & Payment Help | Shenacha Fiber",
+        "h1": "Internet not working? Check these three things.",
+        "width": 375,
+        "scrollWidth": 375,
+        "height": 4696,
+        "bodyTextLength": 2018,
+        "images": [],
+        "duplicateIds": []
+      }
+    },
+    {
+      "number": "10",
+      "slug": "privacy",
+      "route": "/privacy",
+      "viewport": "mobile",
+      "file": "qa/audit-current/10-privacy-mobile.png",
+      "metrics": {
+        "title": "Privacy Notice | Shenacha Fiber",
+        "h1": "How we use your enquiry details.",
+        "width": 375,
+        "scrollWidth": 375,
+        "height": 3524,
+        "bodyTextLength": 2446,
+        "images": [],
+        "duplicateIds": []
+      }
+    }
+  ],
+  "menuMetrics": {
+    "top": 76,
+    "bottom": 533,
+    "width": 343,
+    "headerBottom": 68
+  },
+  "errorMetrics": {
+    "focusedClass": "lead-feedback error error-summary",
+    "errorCount": 7,
+    "invalidSelectCount": 0
+  }
+}

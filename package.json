@@ -8,6 +8,7 @@
     "start": "next start",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
+    "db:check": "node --env-file-if-exists=.env.local scripts/db-check.mjs",
     "db:migrate": "node scripts/migrate.mjs",
     "db:test-migration": "node scripts/test-migration.mjs"
   },
@@ -23,6 +24,7 @@
     "@types/node": "^24.0.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
+    "playwright-core": "^1.62.1",
     "typescript": "^5.9.0",
     "vitest": "^3.2.4"
   }

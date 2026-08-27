@@ -13,6 +13,16 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      { source: "/services/fiber-internet-nairobi", destination: "/fibre-internet", permanent: true },
+      { source: "/services/fiber-internet-juja", destination: "/fibre-internet", permanent: true },
+      { source: "/services/cctv-installation-nairobi", destination: "/cctv", permanent: true },
+      { source: "/services/cctv-installation-juja", destination: "/cctv", permanent: true },
+      { source: "/services/biometric-access-control-nairobi", destination: "/biometric-access", permanent: true },
+      { source: "/services/biometric-access-control-juja", destination: "/biometric-access", permanent: true },
+    ];
+  },
 };
 
 export default nextConfig;

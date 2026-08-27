@@ -46,14 +46,16 @@ export async function POST(request: Request) {
     const sql = getDatabase();
     await sql`
       INSERT INTO website_leads (
-        public_reference, service, selected_plan, location, building, property_type,
-        user_count, message, name, phone, email, contact_preference, consent_granted,
+        public_reference, service, enquiry_kind, selected_plan, location, building, property_type,
+        contact_role, unit_count, unit_number, message, name, phone, whatsapp, email, contact_preference,
+        preferred_meeting_time, preferred_installation_date, consent_granted,
         consent_at, source, utm, submitted_at
       ) VALUES (
-        ${reference}, ${result.lead.service}, ${result.lead.selectedPlan}, ${result.lead.location},
-        ${result.lead.building}, ${result.lead.propertyType}, ${result.lead.userCount},
-        ${result.lead.message}, ${result.lead.name}, ${result.lead.phone}, ${result.lead.email},
-        ${result.lead.contactPreference}, ${result.lead.consent}, ${consentAt},
+        ${reference}, ${result.lead.service}, ${result.lead.enquiryKind}, ${result.lead.selectedPlan}, ${result.lead.location},
+        ${result.lead.building}, ${result.lead.propertyType}, ${result.lead.contactRole}, ${result.lead.unitCount},
+        ${result.lead.unitNumber}, ${result.lead.message}, ${result.lead.name}, ${result.lead.phone},
+        ${result.lead.whatsapp}, ${result.lead.email}, ${result.lead.contactPreference},
+        ${result.lead.preferredMeetingTime}, ${result.lead.preferredInstallationDate}, ${result.lead.consent}, ${consentAt},
         ${result.lead.source}, ${JSON.stringify(result.lead.utm)}::jsonb, ${submittedAt}
       )
     `;
