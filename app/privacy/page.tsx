@@ -1,6 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { ArrowLeft } from "@phosphor-icons/react/dist/ssr/ArrowLeft";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { businessProfile } from "@/lib/business";
@@ -18,7 +16,6 @@ export default function PrivacyPage() {
       <SiteHeader />
       <main id="main-content" className="legal-page">
         <article>
-          <Link className="back-link" href="/"><ArrowLeft size={18} aria-hidden="true" /> Back to home</Link>
           <p className="eyebrow">PRIVACY NOTICE</p>
           <h1>How we use your enquiry details.</h1>
           <p>When you submit an enquiry, we collect the contact and property details needed to respond to your request. This may include your name, phone number, email address, location, selected service and any notes you provide.</p>

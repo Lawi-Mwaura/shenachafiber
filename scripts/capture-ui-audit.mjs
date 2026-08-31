@@ -1,8 +1,8 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import { chromium } from "playwright-core";
 
-const baseUrl = process.env.QA_BASE_URL || "http://127.0.0.1:3100";
-const outputDir = "qa/audit-current";
+const baseUrl = process.env.QA_BASE_URL || "http://localhost:3003";
+const outputDir = "qa/audit-implemented";
 const executablePath = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe";
 const routes = [
   ["01", "home", "/"],
@@ -84,6 +84,11 @@ try {
 
   const mobile = await browser.newContext({ viewport: { width: 375, height: 812 } });
   const page = await mobile.newPage();
+  await page.route("**/api/leads", (route) => route.fulfill({
+    status: 400,
+    contentType: "application/json",
+    body: JSON.stringify({ saved: false, message: "Review the highlighted fields and try again.", fieldErrors: { location: "Enter the property location.", building: "Enter the building name.", unitNumber: "Enter the house or unit number.", name: "Enter your full name.", phone: "Enter a valid phone number.", whatsapp: "Enter a valid WhatsApp number.", consent: "Confirm that we may use these details to respond." } }),
+  }));
   await prepare(page, `${baseUrl}/`);
   await page.getByRole("button", { name: "Open menu" }).click();
   await page.waitForTimeout(180);

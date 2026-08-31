@@ -27,7 +27,7 @@ export default function EnquirePage() {
           <div className="enquire-hero-image"><Image src="/images/family-laptop.jpg" alt="A family using a laptop together at home" fill priority sizes="(max-width: 900px) 100vw, 42vw" /></div>
         </section>
         <section className="enquiry-shell" aria-label="Service request form">
-          <Suspense fallback={<p className="form-loading">Preparing the request form…</p>}><EnquiryForm /></Suspense>
+          <Suspense fallback={<p className="form-loading">Preparing the request form…</p>}><EnquiryForm idPrefix="general-enquiry" /></Suspense>
         </section>
       </main>
       <SiteFooter showFloatingChat={false} />

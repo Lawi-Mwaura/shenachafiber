@@ -1,5 +1,3 @@
-import Link from "next/link";
-import { ArrowLeft } from "@phosphor-icons/react/dist/ssr/ArrowLeft";
 import { Envelope } from "@phosphor-icons/react/dist/ssr/Envelope";
 import { Phone } from "@phosphor-icons/react/dist/ssr/Phone";
 import { WarningCircle } from "@phosphor-icons/react/dist/ssr/WarningCircle";
@@ -24,7 +22,6 @@ export default function HelpPage() {
       <SiteHeader />
       <main id="main-content" className="help-page">
         <div className="help-shell">
-        <Link className="back-link" href="/"><ArrowLeft size={18} aria-hidden="true" /> Back to home</Link>
         <p className="eyebrow">SHENACHA SUPPORT</p>
         <h1>Internet not working? Check these three things.</h1>
         <p className="help-intro">Follow these checks in order. If you are still offline, tell support whether the Power and WAN lights are on, off or blinking.</p>

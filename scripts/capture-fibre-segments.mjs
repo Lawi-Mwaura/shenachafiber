@@ -4,13 +4,19 @@ const browser = await chromium.launch({ executablePath: "C:\\Program Files\\Goog
 try {
   for (const [name, viewport] of [["desktop", { width: 1440, height: 1000 }], ["mobile", { width: 375, height: 812 }]]) {
     const page = await browser.newPage({ viewport });
-    await page.goto("http://127.0.0.1:3100/fibre-internet", { waitUntil: "networkidle" });
-    await page.screenshot({ path: `qa/audit-current/03a-fibre-internet-${name}-top.png`, fullPage: false });
-    for (const [part, selector] of [["owner", ".owner-section"], ["resident", ".resident-section .fiber-ready-section"], ["resident-form", ".resident-section .embedded-form-section"]]) {
+    await page.goto("http://localhost:3003/fibre-internet", { waitUntil: "networkidle" });
+    await page.screenshot({ path: `qa/audit-implemented/03a-fibre-internet-${name}-top.png`, fullPage: false });
+    for (const [part, selector] of [["board", ".fibre-board-section"], ["resident", "#resident-inquiry"], ["property", "#property-tab"]]) {
+      if (part === "property") await page.locator("#property-tab").click();
       const locator = page.locator(selector);
       await locator.scrollIntoViewIfNeeded();
       await page.waitForTimeout(220);
-      await page.screenshot({ path: `qa/audit-current/03${part === "owner" ? "b" : part === "resident" ? "c" : "d"}-fibre-internet-${name}-${part}.png`, fullPage: false });
+      await page.screenshot({ path: `qa/audit-implemented/03-${part}-fibre-internet-${name}.png`, fullPage: false });
+    }
+    for (const hash of ["resident-inquiry", "property-meeting"]) {
+      await page.goto(`http://localhost:3003/fibre-internet#${hash}`, { waitUntil: "networkidle" });
+      await page.waitForTimeout(220);
+      await page.screenshot({ path: `qa/audit-implemented/03-deeplink-${hash}-${name}.png`, fullPage: false });
     }
     await page.close();
   }
