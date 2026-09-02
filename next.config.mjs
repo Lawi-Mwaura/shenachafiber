@@ -1,6 +1,5 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
+/** @type {import("next").NextConfig} */
+const nextConfig = {
   agentRules: false,
   allowedDevOrigins: ["192.168.0.103"],
   experimental: {
