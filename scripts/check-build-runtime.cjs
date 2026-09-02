@@ -1,3 +1,6 @@
+const os = require("node:os");
+const v8 = require("node:v8");
+
 const nativeCompilers = [
   "@next/swc-linux-x64-gnu",
   "@next/swc-linux-x64-musl",
@@ -5,6 +8,10 @@ const nativeCompilers = [
 
 console.log(`Node: ${process.version}`);
 console.log(`Platform: ${process.platform} ${process.arch}`);
+console.log(`NODE_OPTIONS: ${process.env.NODE_OPTIONS || "not set"}`);
+console.log(`V8 heap limit: ${Math.round(v8.getHeapStatistics().heap_size_limit / 1024 / 1024)} MB`);
+console.log(`Process RSS: ${Math.round(process.memoryUsage().rss / 1024 / 1024)} MB`);
+console.log(`Visible system memory: ${Math.round(os.totalmem() / 1024 / 1024)} MB`);
 
 for (const packageName of nativeCompilers) {
   try {

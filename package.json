@@ -7,7 +7,7 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "node --disable-wasm-trap-handler node_modules/next/dist/bin/next build --webpack",
+    "build": "node --max-old-space-size=256 --disable-wasm-trap-handler node_modules/next/dist/bin/next build --webpack",
     "diagnose:runtime": "node scripts/check-build-runtime.cjs",
     "start": "node app.js",
     "typecheck": "tsc --noEmit",
