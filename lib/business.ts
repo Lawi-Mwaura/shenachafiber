@@ -4,6 +4,6 @@ export const businessProfile = {
   whatsappDisplay: "+254 111 366 171",
   supportPhone: "+254791386795",
   supportPhoneDisplay: "+254 791 386 795",
-  email: "shenachabrands@gmail.com",
+  email: "inquiries@shenachafiber.com",
   paymentNumber: "4124145",
 } as const;

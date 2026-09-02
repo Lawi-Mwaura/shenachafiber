@@ -2,6 +2,7 @@ import { randomBytes } from "node:crypto";
 import { NextResponse } from "next/server";
 import { getDatabase } from "@/lib/db";
 import type { LeadResponse } from "@/lib/lead";
+import { sendLeadNotification } from "@/lib/lead-email";
 import { readLeadJson, validateLead } from "@/lib/lead-validation";
 
 export const runtime = "nodejs";
@@ -59,6 +60,15 @@ export async function POST(request: Request) {
         ${result.lead.source}, ${JSON.stringify(result.lead.utm)}::jsonb, ${submittedAt}
       )
     `;
+    try {
+      await sendLeadNotification(reference, result.lead);
+    } catch (error) {
+      console.error("lead_notification_failed", {
+        reference,
+        service: result.lead.service,
+        error: error instanceof Error ? error.name : "UnknownError",
+      });
+    }
     return json({ saved: true, reference, message: "Your request has been received. Shenacha can now follow up using the phone number you provided." }, 201);
   } catch (error) {
     console.error("lead_storage_failed", { reference, service: result.lead.service, error: error instanceof Error ? error.name : "UnknownError" });
