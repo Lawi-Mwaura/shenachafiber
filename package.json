@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build --webpack",
+    "diagnose:runtime": "node scripts/check-build-runtime.cjs",
     "start": "node app.js",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
