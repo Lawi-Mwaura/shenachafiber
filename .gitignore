@@ -9,6 +9,15 @@
 .env*
 !.env.example
 
+# credentials and private keys
+*.pem
+*.key
+*.p12
+*.pfx
+credentials*
+secrets*
+/.npmrc
+
 # TypeScript and test output
 *.tsbuildinfo
 /coverage
@@ -19,4 +28,8 @@
 Thumbs.db
 /.vscode
 /.neon
-/.neon
+/.agents
+/.codex
+/skills-lock.json
+/tmp
+/c-panel.md
