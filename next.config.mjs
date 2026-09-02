@@ -3,7 +3,9 @@ const nextConfig = {
   agentRules: false,
   allowedDevOrigins: ["192.168.0.103"],
   experimental: {
+    cpus: 1,
     preloadEntriesOnStart: false,
+    webpackBuildWorker: false,
     webpackMemoryOptimizations: true,
   },
   images: {
