@@ -17,7 +17,7 @@ const body = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://shenachafiber.com"),
+  metadataBase: new URL("https://www.shenachafiber.com"),
   title: {
     default: "Shenacha | Connectivity, Security & Access",
     template: "%s | Shenacha Fiber",
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Shenacha Fiber",
     description: "Connectivity. Security. Access. Fibre in Juja; CCTV and biometric access wherever your property is located.",
-    url: "https://shenachafiber.com",
+    url: "https://www.shenachafiber.com",
     siteName: "Shenacha Fiber",
     locale: "en_KE",
     type: "website",
@@ -59,9 +59,9 @@ const localBusinessSchema = {
   "@graph": [
     {
       "@type": "LocalBusiness",
-      "@id": "https://shenachafiber.com/#business",
+      "@id": "https://www.shenachafiber.com/#business",
       name: "Shenacha Fiber",
-      url: "https://shenachafiber.com",
+      url: "https://www.shenachafiber.com",
       email: businessProfile.email,
       contactPoint: [
         { "@type": "ContactPoint", telephone: businessProfile.whatsapp, contactType: "WhatsApp enquiries", availableLanguage: ["English", "Swahili"] },
@@ -75,9 +75,9 @@ const localBusinessSchema = {
         "@type": "OfferCatalog",
         name: "Connectivity and security services",
         itemListElement: [
-          { "@type": "Offer", itemOffered: { "@type": "Service", name: "Fibre internet in Juja", url: "https://shenachafiber.com/fibre-internet" } },
-          { "@type": "Offer", itemOffered: { "@type": "Service", name: "CCTV solutions", url: "https://shenachafiber.com/cctv" } },
-          { "@type": "Offer", itemOffered: { "@type": "Service", name: "Biometric access control", url: "https://shenachafiber.com/biometric-access" } },
+          { "@type": "Offer", itemOffered: { "@type": "Service", name: "Fibre internet in Juja", url: "https://www.shenachafiber.com/fibre-internet" } },
+          { "@type": "Offer", itemOffered: { "@type": "Service", name: "CCTV solutions", url: "https://www.shenachafiber.com/cctv" } },
+          { "@type": "Offer", itemOffered: { "@type": "Service", name: "Biometric access control", url: "https://www.shenachafiber.com/biometric-access" } },
         ],
       },
     },
