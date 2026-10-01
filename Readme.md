@@ -1,60 +1,59 @@
-# Shenacha website
+# Shenachafiber
 
-Next.js website for Shenacha's three services: fibre internet in Juja, plus CCTV and biometric access solutions for properties wherever they are located. The visual system uses the existing editorial navy, white and restrained-red direction.
+### Enquiry handling: validation, durable storage, and honest recovery
 
-## Local development
+[Lawi Mwaura](https://github.com/Lawi-Mwaura) · [Source repository](https://github.com/Lawi-Mwaura/shenachafiber)
 
-```bash
-npm install
-npm run dev
+![Shenachafiber homepage](docs/assets/portfolio-homepage.jpg)
+
+*Actual homepage excerpt from the repository’s interface captures. No submitted enquiry records are shown.*
+
+## Engineering scope
+
+A Next.js website with structured enquiry journeys, server-side validation, PostgreSQL persistence, and notification delivery. The engineering focus is accurately telling a user whether their request was saved when part of the system is unavailable.
+
+**Technologies:** TypeScript, Next.js, React, Neon / PostgreSQL, Resend, Vitest.
+
+## System design
+
+```mermaid
+flowchart TB
+    FORM[Public enquiry form] --> PARSE[Bounded JSON parsing]
+    PARSE --> VALIDATE[Conditional field validation]
+    VALIDATE --> SAVE[(PostgreSQL persistence)]
+    SAVE --> RESPONSE[Saved result and public reference]
+    RESPONSE --> FORM
+    SAVE --> NOTIFY[Notification delivery]
+    NOTIFY --> LOG[Separate delivery error reporting]
 ```
 
-The static pages work without database credentials. In that state, a valid enquiry returns `503`; the form keeps the entered values and clearly says that nothing was sent or stored, with the official WhatsApp contact as a fallback.
+## Core decisions
 
-Copy `.env.example` to `.env.local` only when the Shenacha Neon project is available. Keep both variables server-only:
+| Failure or constraint | Design response |
+| :--- | :--- |
+| Malformed or oversized input | Validate request parsing and reject invalid input before persistence. |
+| Different enquiry journeys | Apply validation according to the submitted journey rather than relying only on visible form fields. |
+| Storage unavailable | Return an explicit unavailable result without claiming that details were received. |
+| Notification fails after saving | Preserve the saved result and report the notification failure separately. |
+| A reference is needed for follow-up | Return a non-sequential public reference rather than exposing the internal record identifier. |
+| Personal information in logs or caches | Use minimal error metadata and no-store responses for submission results. |
 
-- `DATABASE_URL`: pooled connection for the Next.js API.
-- `DATABASE_URL_UNPOOLED`: direct connection for migrations.
+## Tradeoffs
 
-Never use a `NEXT_PUBLIC_` prefix for either value.
+**A notification is not the durable record.** Saving before notification makes the response depend on persistence. Reliable retries for email delivery are a separate operational concern, rather than a reason to tell a user that an already-saved request failed.
 
-## Neon setup and migration
+**Availability must be communicated honestly.** A temporary database outage produces an explicit failure response. The interface can preserve entered values and offer a useful fallback instead of showing a success state that the backend cannot support.
 
-The workspace is linked to the Shenacha Neon project with the named `shenacha` CLI profile. The existing `DEFAULT` profile is unrelated and must not be repurposed. A project-local MCP server is configured as `neon_shenacha`.
+**Validation is a shared contract.** Keeping parsing and validation separate from the route makes malformed input and conditional fields testable without a live database.
 
-Migrations run in order from `migrations/001_website_leads.sql` and `migrations/002_structured_enquiries.sql`:
+## Validation
 
-```bash
-npm run db:migrate
-```
+On **1 October 2026**, **27 tests across three selected suites passed**: lead validation, notification formatting, and the enquiry API route. These cover validation, persistence outcomes, missing storage configuration, and route responses through isolated tests.
 
-Verify the pooled application connection, direct migration connection and enquiry table without writing data:
+The selected run did not exercise a live database, real email delivery, or deployment availability. The repository’s configured public preview URL was unavailable during this portfolio review, so the README uses an actual repository capture and links to source rather than advertising a working demo.
 
-```bash
-npm run db:check
-```
+[Contact Lawi](mailto:lawimwaura@gmail.com)
 
-The migration command requires `DATABASE_URL_UNPOOLED`. To verify empty and legacy schemas, point `NEON_TEST_DATABASE_URL` only at a disposable Neon child branch and run:
+## Developer guide
 
-```bash
-npm run db:test-migration
-```
-
-The compatibility test creates uniquely named tables, executes both migrations twice, checks structured fields and legacy backfills, and drops only its temporary tables.
-
-## Stored enquiry data
-
-`website_leads` stores a non-sequential public reference and structured enquiry data for fibre availability, property meetings, CCTV quotes, biometric quotes and support. Kenyan phone and WhatsApp numbers are normalized. Consent and submission timestamps are created by the server. The internal sequential ID is never returned by the API.
-
-The API accepts at most 16 KiB of JSON, rejects honeypot submissions, conditionally validates each journey, returns `Cache-Control: no-store`, and avoids logging names, phone numbers, email addresses, locations or messages.
-
-## Verification
-
-```bash
-npm run test
-npm run typecheck
-npm run build
-npm audit
-```
-
-Smoke-check `/`, `/about`, `/fibre-internet`, `/cctv`, `/biometric-access`, `/coverage`, `/contact`, `/enquire`, `/help`, `/privacy`, metadata endpoints, and all legacy redirects at desktop and mobile widths.
+[Local setup, migrations, environment configuration, and verification commands](docs/development.md).
