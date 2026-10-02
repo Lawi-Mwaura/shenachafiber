@@ -4,23 +4,23 @@
 
 [Lawi Mwaura](https://github.com/Lawi-Mwaura) · [Source repository](https://github.com/Lawi-Mwaura/shenachafiber)
 
+## Problem statement
+
+Homes and businesses looking for fibre internet, CCTV or biometric access need to understand the available services and send an enquiry with the right information. They also need a clear indication that their request was received. Shenachafiber provides service information and structured enquiry journeys.
+
+**Engineering challenge.** An enquiry can be stored successfully even when its notification fails. Users need an accurate submission result, while malformed inputs and storage outages must be handled explicitly.
+
 ![Shenachafiber homepage](docs/assets/portfolio-homepage.jpg)
 
 *Actual homepage excerpt from the repository’s interface captures. No submitted enquiry records are shown.*
 
-## Problem statement
-
-An enquiry can be stored successfully even when its notification fails. Users need an accurate submission result, while malformed inputs and storage outages must be handled explicitly.
-
 ## Technologies used
 
-TypeScript · Next.js · React · Neon / PostgreSQL · Resend · Vitest
+TypeScript · Next.js · React · Neon / PostgreSQL · Resend · Phosphor Icons · Simple Icons · Vitest · Playwright
 
 ## Engineering scope
 
 A Next.js website with structured enquiry journeys, server-side validation, PostgreSQL persistence, and notification delivery. The engineering focus is accurately telling a user whether their request was saved when part of the system is unavailable.
-
-**Technologies:** TypeScript, Next.js, React, Neon / PostgreSQL, Resend, Vitest.
 
 ## System design
 
