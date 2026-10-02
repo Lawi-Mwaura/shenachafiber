@@ -24,35 +24,9 @@ A Next.js website with structured enquiry journeys, server-side validation, Post
 
 ## System design
 
-**Reading the diagram:** blue = interface; green = processing; gold = data; purple = access, lifecycle, or operational control. Arrow labels describe the handoff between components.
+**Component architecture.** The boxes identify technologies and responsibilities; boundaries group the application runtime and managed backend. Relationships show dependencies and integration protocols, rather than a step-by-step processing flow.
 
-```mermaid
-flowchart TB
-    FORM[Public enquiry form]
-    subgraph SERVER[Server · validation boundary]
-        PARSE[Bounded JSON parsing]
-        VALIDATE[Conditional field validation]
-    end
-    SAVE[(PostgreSQL · durable enquiry)]
-    RESPONSE[Saved result and public reference]
-    NOTIFY[Resend notification]
-    LOG[Separate delivery error reporting]
-    FORM -->|Submitted fields| PARSE
-    PARSE -->|Parsed input| VALIDATE
-    VALIDATE -->|Valid enquiry| SAVE
-    SAVE -->|Storage succeeded| RESPONSE
-    RESPONSE -->|Accurate submission result| FORM
-    SAVE -->|After persistence| NOTIFY
-    NOTIFY -->|Delivery failure| LOG
-    classDef client fill:#EAF2FF,stroke:#3564A3,color:#142D4F,stroke-width:2px;
-    classDef service fill:#E7F5F0,stroke:#24745C,color:#123E32,stroke-width:2px;
-    classDef data fill:#FFF4D6,stroke:#966F20,color:#4D3810,stroke-width:2px;
-    classDef control fill:#F2ECFA,stroke:#7653A1,color:#382451,stroke-width:2px;
-    class FORM,RESPONSE client;
-    class PARSE,VALIDATE,NOTIFY service;
-    class SAVE data;
-    class LOG control;
-```
+![shenachafiber application components and labelled backend dependencies](docs/assets/portfolio-architecture.svg)
 
 ## Challenges and engineering decisions
 
@@ -98,4 +72,6 @@ The selected run did not exercise a live database, real email delivery, or deplo
 
 [Contact Lawi](mailto:lawimwaura@gmail.com)
 
-[Developer guide](docs/development.md)
+## Development
+
+[Developer guide](DEVELOPMENT.md) · [Source repository](https://github.com/Lawi-Mwaura/shenachafiber)
