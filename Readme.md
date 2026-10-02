@@ -10,9 +10,13 @@ Homes and businesses looking for fibre internet, CCTV or biometric access need t
 
 **Engineering challenge.** An enquiry can be stored successfully even when its notification fails. Users need an accurate submission result, while malformed inputs and storage outages must be handled explicitly.
 
-![Shenachafiber homepage](docs/assets/portfolio-homepage.jpg)
+<p align="center">
+  <a href="docs/assets/portfolio-homepage.jpg"><img src="docs/assets/portfolio-homepage.jpg" width="31%" alt="Shenachafiber: homepage" /></a>
+  <a href="docs/assets/portfolio-about.jpg"><img src="docs/assets/portfolio-about.jpg" width="31%" alt="Shenachafiber: About page" /></a>
+  <a href="docs/assets/portfolio-help.jpg"><img src="docs/assets/portfolio-help.jpg" width="31%" alt="Shenachafiber: support page excerpt" /></a>
+</p>
 
-*Actual homepage excerpt from the repository’s interface captures. No submitted enquiry records are shown.*
+*Home, About and support excerpts from existing repository QA captures. Open a screenshot for detail.*
 
 ## Technologies used
 
