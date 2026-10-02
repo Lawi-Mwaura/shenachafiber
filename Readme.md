@@ -74,4 +74,5 @@ The selected run did not exercise a live database, real email delivery, or deplo
 
 ## Development
 
-[Developer guide](DEVELOPMENT.md) · [Source repository](https://github.com/Lawi-Mwaura/shenachafiber)
+[Developer guide](docs/development.md) · [Source repository](https://github.com/Lawi-Mwaura/shenachafiber)
+
